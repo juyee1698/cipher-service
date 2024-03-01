@@ -10,7 +10,7 @@ on:
         branches: 
             - main
 jobs:
-    build: 
+    build_and_publish: 
         runs-on: ubuntu-latest
 
         steps: 
@@ -28,4 +28,12 @@ jobs:
           run: |
             cd ciphers_project
             python3 manage.py test
+
+        - name: Build and push the image
+          run: |
+            docker login --username juyee1698 --password ${{secrets.ACCESS_TOKEN}} ghcr.io
+            docker build -t ghcr.io/juyee1698/cipher-service:latest --file Dockerfile .  
+            docker push ghcr.io/juyee1698/cipher-service:latest
+        
+        
 
